@@ -1,67 +1,75 @@
 #include "main.h"
 #include <stdlib.h>
-#include <string.h>
 
-#define MAX_WORDS 100
+/**
+ * _strlen - Calculates the length of a string.
+ * @str: The string to calculate the length of.
+ *
+ * Return: The length of the string.
+ */
+size_t _strlen(char *str)
+{
+	size_t len = 0;
 
-char **strtow(char *str);
+	while (str[len])
+		len++;
 
+	return (len);
+}
+
+/**
+ * strtow - Splits a string into words.
+ * @str: The string to split.
+ *
+ * Return: Pointer to an array of strings (words), or NULL if str is NULL or empty.
+ */
 char **strtow(char *str)
 {
-  if (str == NULL || *str == '\0')
-    return NULL;
+	char **words;
+	size_t i, j, k, word_count = 0, word_len = 0;
 
-  int len = strlen(str);
-  int word_count = 0;
-  int word_start = 0;
+	if (str == NULL || str[0] == '\0')
+		return (NULL);
 
-  char **words = malloc((MAX_WORDS + 1) * sizeof(char *));
-  if (words == NULL)
-    return NULL;
+	for (i = 0; str[i]; i++)
+	{
+		if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0'))
+			word_count++;
+	}
 
-  for (int i = 0; i < len; i++)
-  {
-    if (str[i] == ' ')
-    {
-      if (i > 0 && str[i - 1] != ' ')
-      {
-        int word_len = i - word_start;
-        words[word_count] = malloc((word_len + 1) * sizeof(char));
-        if (words[word_count] == NULL)
-        {
-          for (int j = 0; j < word_count; j++)
-            free(words[j]);
-          free(words);
-          return NULL;
-        }
-        strncpy(words[word_count], &str[word_start], word_len);
-        words[word_count][word_len] = '\0';
-        word_count++;
+	if (word_count == 0)
+		return (NULL);
 
-        if (word_count >= MAX_WORDS)
-          break;
-      }
-      word_start = i + 1;
-    }
-  }
+	words = malloc((word_count + 1) * sizeof(char *));
+	if (words == NULL)
+		return (NULL);
 
-  if (len > 0 && str[len - 1] != ' ')
-  {
-    int word_len = len - word_start;
-    words[word_count] = malloc((word_len + 1) * sizeof(char));
-    if (words[word_count] == NULL)
-    {
-      for (int j = 0; j <= word_count; j++)
-        free(words[j]);
-      free(words);
-      return NULL;
-    }
-    strncpy(words[word_count], &str[word_start], word_len);
-    words[word_count][word_len] = '\0';
-    word_count++;
-  }
+	for (i = 0, j = 0; str[i]; i++)
+	{
+		if (str[i] != ' ')
+		{
+			word_len++;
+			if (str[i + 1] == ' ' || str[i + 1] == '\0')
+			{
+				words[j] = malloc((word_len + 1) * sizeof(char));
+				if (words[j] == NULL)
+				{
+					for (k = 0; k < j; k++)
+						free(words[k]);
+					free(words);
+					return (NULL);
+				}
 
-  words[word_count] = NULL;
-  return words;
+				for (k = 0; k < word_len; k++)
+					words[j][k] = str[i - word_len + 1 + k];
+				words[j][k] = '\0';
+				j++;
+				word_len = 0;
+			}
+		}
+	}
+
+	words[word_count] = NULL;
+	return (words);
 }
 
