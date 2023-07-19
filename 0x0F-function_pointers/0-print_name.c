@@ -1,12 +1,30 @@
 #include "function_pointers.h"
+#include <stdlib.h>
 
-/**
- * print_name - Print a name from a function pointer
- * @name: char string
- * @f: function pointer that takes a string argument
- */
+int _putchar(char c)
+{
+    /* Implementation of _putchar goes here */
+    return write(1, &c, 1);
+}
 
 void print_name(char *name, void (*f)(char *))
 {
-	f(name);
+    if (name != NULL && f != NULL)
+    {
+        f(name);
+    }
+}
+
+void print_char(char *c)
+{
+    _putchar(*c);
+}
+
+void print_name_char_by_char(char *name)
+{
+    while (*name)
+    {
+        _putchar(*name);
+        name++;
+    }
 }
