@@ -1,14 +1,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lists.h"
+
 /**
- * add_node - Adds a new node at the end of a list_t list.
- * @head: A pointer to the head of the list.
- * @str: The string to be duplicated and added to the new node.
+ * add_node_end - Adds a new node at the end of a list_t list.
+ * @head: Pointer to the head of the list.
+ * @str: String to be duplicated and added as the new node's value.
  *
  * Return: The address of the new element, or NULL if it failed.
  */
-list_t *add_node(list_t **head, const char *str)
+list_t *add_node_end(list_t **head, const char *str)
 {
     if (str == NULL)
         return NULL;
@@ -17,20 +18,24 @@ list_t *add_node(list_t **head, const char *str)
     if (new_node == NULL)
         return NULL;
 
-    char *str_copy = strdup(str);
-    if (str_copy == NULL) {
+    new_node->str = strdup(str);
+    if (new_node->str == NULL)
+    {
         free(new_node);
         return NULL;
     }
 
-    new_node->str = str_copy;
     new_node->next = NULL;
 
-    if (*head == NULL) {
+    if (*head == NULL)
+    {
         *head = new_node;
-    } else {
+    }
+    else
+    {
         list_t *current = *head;
-        while (current->next != NULL) {
+        while (current->next != NULL)
+        {
             current = current->next;
         }
         current->next = new_node;
