@@ -1,46 +1,38 @@
-#include <stdlib.h>
-#include <string.h>
 #include "lists.h"
+#include <string.h>
 
 /**
- * add_node_end - Adds a new node at the end of a list_t list.
- * @head: Pointer to the head of the list.
- * @str: String to be duplicated and added as the new node's value.
- *
- * Return: The address of the new element, or NULL if it failed.
+ * add_node_end - A function that adds a node to the end of linked list
+ * @head: pointer to a list_t pointer that points to the head struct
+ * @str: string to add as node
+ * Return: pointer to new element of list, NULL on failure
  */
 list_t *add_node_end(list_t **head, const char *str)
 {
-    if (str == NULL)
-        return NULL;
+	list_t *new_node, *temp;
+	unsigned int length = 0;
 
-    list_t *new_node = malloc(sizeof(list_t));
-    if (new_node == NULL)
-        return NULL;
+	new_node = malloc(sizeof(list_t));
+	if (new_node == NULL)
+		return (NULL);
 
-    new_node->str = strdup(str);
-    if (new_node->str == NULL)
-    {
-        free(new_node);
-        return NULL;
-    }
+	while (str[length])
+		length++;
 
-    new_node->next = NULL;
-
-    if (*head == NULL)
-    {
-        *head = new_node;
-    }
-    else
-    {
-        list_t *current = *head;
-        while (current->next != NULL)
-        {
-            current = current->next;
-        }
-        current->next = new_node;
-    }
-
-    return new_node;
+	new_node->len = length;
+	new_node->str = strdup(str);
+	if (*head == NULL)
+	{
+		new_node->next = *head;
+		*head = new_node;
+	}
+	else
+	{
+		new_node->next = NULL;
+		temp = *head;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_node;
+	}
+	return (new_node);
 }
-
