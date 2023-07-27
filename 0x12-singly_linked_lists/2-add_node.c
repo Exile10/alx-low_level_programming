@@ -3,20 +3,6 @@
 #include "lists.h"
 
 /**
- * struct list_s - singly linked list
- * @str: string - (malloc'ed string)
- * @next: points to the next node
- *
- * Description: singly linked list node structure
- * for Holberton project
- */
-typedef struct list_s
-{
-	char *str;
-	struct list_s *next;
-} list_t;
-
-/**
  * add_node - Add a new node at the beginning of a list_t list.
  * @head: Pointer to a pointer to the head of the list.
  * @str: String to be duplicated and added to the new node.
