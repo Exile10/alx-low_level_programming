@@ -1,36 +1,39 @@
-#include <stddef.h>
 #include "lists.h"
-
+#include <stdio.h>
 /**
- * struct listint_s - singly linked list
- * @n: integer
- * @next: points to the next node
- *
- * Description: singly linked list node structure
- * for Holberton project
- */
-
-/**
- * reverse_listint - Reverses a listint_t linked list.
- * @head: A pointer to the head of the linked list.
- *
- * Return: A pointer to the first node of the reversed list.
+ * reverse_listint - Reverse a `listint_t` linked list
+ * @head: double pointer to head
+ * Description: Limited to going through loop only once.
+ * Not allowed to use `malloc` or `free` or arrays
+ * Can only declare a max of 2 variables.
+ * Return: pointer to first node of reversed list
  */
 listint_t *reverse_listint(listint_t **head)
 {
-    listint_t *prev = NULL, *next = NULL;
+	listint_t *hold;
+	listint_t *current;
 
-    while (*head != NULL)
-    {
-        next = (*head)->next; // Store the next node
-        (*head)->next = prev; // Reverse the link
+	if (*head == NULL)
+		return (NULL);
 
-        prev = *head; // Move prev to current node
-        *head = next; // Move head to next node
-    }
+	current = *head;
+	*head = current->next;
+	hold = (*head)->next;
+	current->next = NULL;
+	if (*head == NULL)
+	{
+		*head = current;
+		return (current);
+	}
 
-    *head = prev; // Update head to the new first node (which was the last node)
+	while (hold != NULL)
+	{
+		(*head)->next = current;
+		current = *head;
+		*head = hold;
+		hold = (*head)->next;
+	}
 
-    return *head;
+	(*head)->next = current;
+	return (*head);
 }
-
