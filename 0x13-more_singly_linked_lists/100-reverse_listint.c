@@ -1,10 +1,5 @@
 #include <stdlib.h>
-
-/* Definition for singly-linked list */
-typedef struct listint_s {
-    int n;
-    struct listint_s *next;
-} listint_t;
+#include "lists.h"
 
 /* Function to reverse a linked list */
 listint_t *reverse_listint(listint_t **head) {
